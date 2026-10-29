@@ -165,13 +165,29 @@ async function updateSubmissionStatus(id, newStatus) {
     }
 
     alert(`Tournament ${newStatus} successfully!`);
-
-    await loadPendingSubmissions(accessToken);
-
+await loadPendingSubmissions(accessToken);
   } catch (error) {
     alert(error.message);
   }
 }
+
+document.getElementById("pending-submissions").addEventListener("click", async (event) => {
+  const button = event.target.closest("button");
+
+  if (!button) return;
+
+  const id = button.dataset.id;
+
+  if (!id) return;
+
+  if (button.classList.contains("approve-btn")) {
+    await updateSubmissionStatus(id, "approved");
+  }
+
+  if (button.classList.contains("reject-btn")) {
+    await updateSubmissionStatus(id, "rejected");
+  }
+});
 const loginForm = document.getElementById("admin-login");
 const loginMessage = document.getElementById("login-message");
 
