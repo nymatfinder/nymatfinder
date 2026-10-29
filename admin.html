@@ -134,7 +134,7 @@ async function loadApprovedSubmissions(accessToken) {
 
   try {
     const response = await fetch(
-      `${SUPABASE_URL}/rest/v1/tournament_submissions?select=id,tournament_name,tournament_date,city,state,contact_email,listing_package&submission_status=eq.approved&order=created_at.desc`,
+      `${SUPABASE_URL}/rest/v1/tournament_submissions?select=id,tournament_name,tournament_date,city,state,contact_email,listing_package,payment_status&submission_status=eq.approved&order=created_at.desc`,
       {
         headers: {
           "apikey": SUPABASE_KEY,
