@@ -91,7 +91,23 @@
   <label for="website_check">Leave this field empty</label>
   <input id="website_check" name="website_check" type="text" tabindex="-1" autocomplete="off">
 </div><div class="grid"><div class="field"><label for="name">Tournament name *</label><input id="name" required></div><div class="field"><label for="date">Tournament date *</label><input id="date" type="date" required></div><div class="field"><label for="city">City *</label><input id="city" required></div><div class="field"><label for="eventstate">State *</label><select id="eventstate" required><option value="">Choose state</option><option>NY</option><option>PA</option></select></div><div class="field"><label for="contact">Contact email *</label><input id="contact" type="email" required></div><div class="field"><label for="package">Listing package *</label><select id="package" required><option value="">Choose package</option><option>Basic — $10</option><option>Premium — $15</option><option>Featured — $20</option></select></div><div class="field"><label for="eventstyle">Wrestling style</label><select id="eventstyle"><option>Folkstyle</option><option>Freestyle</option><option>Greco-Roman</option></select></div><div class="field"><label for="flyer">Flyer (PDF, JPG, PNG)</label><input id="flyer" type="file" accept=".pdf,.jpg,.jpeg,.png,application/pdf,image/jpeg,image/png" disabled>
-<small>Flyer uploads coming soon. You can submit your tournament details now.</small></div></div><div class="field"><label for="details">Additional tournament details</label><textarea id="details" rows="5" placeholder="Divisions, weigh-ins, fees, registration link, venue address, official results link (if completed)..."></textarea></div><button class="btn" type="submit">Submit Tournament for Approval</button><p id="feedback" role="status"></p></form></div></section></main><footer>NYmatfinder • Find Your Next Tournament • Prototype — not accepting payments or live submissions</footer><script>let tournaments=[];function render() {
+<small>Flyer uploads coming soon. You can submit your tournament details now.</small></div></div><div class="field"><label for="details">Additional tournament details</label><textarea id="details" rows="5" placeholder="Divisions, weigh-ins, fees, registration link, venue address, official results link (if completed)..."></textarea></div><button class="btn" type="submit">Submit Tournament for Approval</button><p id="feedback" role="status"></p></form></div></section></main>
+
+<!-- Tournament Details Window -->
+<dialog id="tournament-modal" style="width:min(90%,700px);max-height:90vh;border:none;border-radius:12px;padding:25px;box-shadow:0 10px 40px #0004;">
+  <button
+    type="button"
+    id="close-tournament-modal"
+    aria-label="Close tournament details"
+    style="float:right;background:#133e68;color:white;border:none;padding:10px 15px;border-radius:6px;cursor:pointer;"
+  >
+    ✕ Close
+  </button>
+
+  <div id="tournament-modal-content" style="clear:both;padding-top:15px;"></div>
+</dialog>
+
+<footer>NYmatfinder • Find Your Next Tournament • Prototype — not accepting payments or live submissions</footer><script>let tournaments=[];function render() {
   const q = document.querySelector('#query').value.toLowerCase();
   const s = document.querySelector('#state').value;
   const st = document.querySelector('#style').value;
@@ -126,14 +142,66 @@
                 📅 ${t.date || 'Date TBD'}<br>
                 🤼 ${t.style} · ${t.age}
               </div>
-              <span class="link">Tournament Details</span>
+              <button
+  type="button"
+  class="link"
+  data-tournament-id="${t.id}"
+  onclick="openTournamentDetails(this.dataset.tournamentId)"
+  style="background:none;border:none;padding:0;font-size:14px;"
+>
+  Tournament Details →
+</button>
             </div>
           </article>
         `;
       }).join('')
     : '<p>No tournaments are currently available. Check back soon!</p>';
 }}
+function openTournamentDetails(id) {
+  const tournament = tournaments.find(t => String(t.id) === String(id));
 
+  if (!tournament) {
+    alert('Tournament details are unavailable.');
+    return;
+  }
+
+  const escapeHTML = value => String(value ?? '').replace(/[&<>"']/g, char => ({
+    '&': '&amp;',
+    '<': '&lt;',
+    '>': '&gt;',
+    '"': '&quot;',
+    "'": '&#39;'
+  }[char]));
+
+  const flyer = tournament.flyer || '';
+  const safeFlyer = /^https?:\/\//i.test(flyer)
+    ? escapeHTML(flyer)
+    : '';
+
+  document.querySelector('#tournament-modal-content').innerHTML = `
+    <h2>${escapeHTML(tournament.name)}</h2>
+
+    <p>
+      📅 <strong>Date:</strong> ${escapeHTML(tournament.date || 'TBD')}<br>
+      📍 <strong>Location:</strong> ${escapeHTML(tournament.city)}, ${escapeHTML(tournament.state)}<br>
+      🤼 <strong>Style:</strong> ${escapeHTML(tournament.style || 'TBD')}<br>
+      <strong>Age Division:</strong> ${escapeHTML(tournament.age || 'TBD')}
+    </p>
+
+    ${safeFlyer
+      ? `<img src="${safeFlyer}" alt="Flyer for ${escapeHTML(tournament.name)}"
+           style="width:100%;height:auto;margin-top:15px;border-radius:8px;">`
+      : '<p>Flyer not available yet.</p>'
+    }
+  `;
+
+  document.querySelector('#tournament-modal').showModal();
+}
+
+document.querySelector('#close-tournament-modal')
+  .addEventListener('click', () => {
+    document.querySelector('#tournament-modal').close();
+  });
 function renderHomepageEvents() {
   const featured = tournaments
     .filter(t => (t.tier || '').toLowerCase() === 'featured')
@@ -235,6 +303,7 @@ async function loadNYmatfinderTournaments() {
 const data = await response.json();
 
 tournaments = data.map(t => ({
+  id: t.id,
   name: t.tournament_name,
   city: t.city,
   state: t.state,
