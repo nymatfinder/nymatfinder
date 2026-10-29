@@ -98,6 +98,7 @@ if (isAdmin !== true) {
 }
 
 loginMessage.textContent = "Administrator access verified!";
+    document.getElementById("admin-dashboard").hidden = false;
     loginForm.reset();
 
   } catch (error) {
