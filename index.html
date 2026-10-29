@@ -37,7 +37,21 @@
   .card.featured {
     grid-column: span 1;
   }
-}.card h3{margin:12px 0}.muted{color:#5b6c7b;font-size:14px;line-height:1.8}.link{display:inline-block;margin-top:12px;color:#15568d;font-weight:800;text-decoration:none;cursor:pointer}.prices{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px}.price{padding:23px;border:1px solid #dce5ef;border-radius:10px;background:white}.price strong{font-size:36px;color:var(--navy)}.price h3{margin:0 0 10px}.price p{color:#526475;line-height:1.6}.section{margin:48px 0}.formbox{background:white;border-radius:12px;padding:25px;max-width:820px;box-shadow:0 3px 15px #102b4a0d}.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}.field{margin:12px 0}.field label{display:block;font-weight:700;font-size:13px;margin-bottom:6px}small{color:#647589}.notice{padding:12px;background:#fff4d9;border-left:4px solid var(--gold);margin:15px 0;color:#584418}.hidden{display:none}footer{background:#102b4a;color:#fff;padding:28px;text-align:center;margin-top:40px}@media(max-width:700px){.search{grid-template-columns:1fr;margin-top:-35px}.grid{grid-template-columns:1fr}nav a{margin:0 12px 0 0}.hero{padding-top:50px;padding-bottom:80px}}</style></head><body><header><div class="brand">NY<span>matfinder</span></div><nav><a href="#tournaments">Find Tournaments</a><a href="#results">Recent Results</a><a href="#pricing">Pricing</a><a href="#submit">Submit Tournament</a></nav></header><section class="hero"><div class="tag">NY + PA</div><h1>FIND YOUR NEXT<br>TOURNAMENT.</h1><p>The home for youth and high school wrestling tournaments across NY and PA. Find the right competition, see event details, and get on the mat.</p><a class="btn" href="#tournaments" style="display:inline-block;text-decoration:none">Explore Tournaments →</a></section><main class="wrap"><div class="search" aria-label="Tournament search"><input id="query" placeholder="Search tournament or city" aria-label="Search tournaments"><select id="state" aria-label="State"><option value="">All States</option><option>NY</option><option>PA</option></select><select id="style" aria-label="Style"><option value="">All Styles</option><option>Folkstyle</option><option>Freestyle</option><option>Greco-Roman</option></select><select id="age" aria-label="Age group"><option value="">All Ages</option><option>Youth</option><option>High School</option></select></div><section id="tournaments" class="section">
+}.card h3{margin:12px 0}.muted{color:#5b6c7b;font-size:14px;line-height:1.8}.link{display:inline-block;margin-top:12px;color:#15568d;font-weight:800;text-decoration:none;cursor:pointer}.prices{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px}.price{padding:23px;border:1px solid #dce5ef;border-radius:10px;background:white}.price strong{font-size:36px;color:var(--navy)}.price h3{margin:0 0 10px}.price p{color:#526475;line-height:1.6}.section{margin:48px 0}.formbox{background:white;border-radius:12px;padding:25px;max-width:820px;box-shadow:0 3px 15px #102b4a0d}.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}.field{margin:12px 0}.field label{display:block;font-weight:700;font-size:13px;margin-bottom:6px}small{color:#647589}.notice{padding:12px;background:#fff4d9;border-left:4px solid var(--gold);margin:15px 0;color:#584418}.hidden{display:none}footer{background:#102b4a;color:#fff;padding:28px;text-align:center;margin-top:40px}@media(max-width:700px){.search{grid-template-columns:1fr;margin-top:-35px}.grid{grid-template-columns:1fr}nav a{margin:0 12px 0 0}.hero{padding-top:50px;padding-bottom:80px}}</style></head><body><header><div class="brand">NY<span>matfinder</span></div><nav><a href="#tournaments">Find Tournaments</a><a href="#results">Recent Results</a><a href="#pricing">Pricing</a><a href="#submit">Submit Tournament</a></nav></header><section class="hero"><div class="tag">NY + PA</div><h1>FIND YOUR NEXT<br>TOURNAMENT.</h1><p>The home for youth and high school wrestling tournaments across NY and PA. Find the right competition, see event details, and get on the mat.</p><a class="btn" href="#tournaments" style="display:inline-block;text-decoration:none">Explore Tournaments →</a></section>
+<main class="wrap">
+
+<section id="featured-events" class="section">
+  <h2>⭐ Featured Events & Sponsors</h2>
+  <p class="muted">
+    Discover premier wrestling tournaments across New York and Pennsylvania.
+  </p>
+
+  <div id="homepage-featured" class="cards"></div>
+
+  <div id="homepage-premium" class="cards" style="margin-top:20px"></div>
+</section>
+
+<div class="search" aria-label="Tournament search"><input id="query" placeholder="Search tournament or city" aria-label="Search tournaments"><select id="state" aria-label="State"><option value="">All States</option><option>NY</option><option>PA</option></select><select id="style" aria-label="Style"><option value="">All Styles</option><option>Folkstyle</option><option>Freestyle</option><option>Greco-Roman</option></select><select id="age" aria-label="Age group"><option value="">All Ages</option><option>Youth</option><option>High School</option></select></div><section id="tournaments" class="section">
   <h2>Find Wrestling Tournaments</h2>
   <p class="muted">
     Browse upcoming wrestling tournaments across New York and Pennsylvania.
@@ -89,7 +103,43 @@
         `;
       }).join('')
     : '<p>No tournaments are currently available. Check back soon!</p>';
-}}['query','state','style','age'].forEach(id=>document.getElementById(id).addEventListener('input',render));render();document.querySelector('#form').addEventListener('submit', async e => {
+}}
+
+function renderHomepageEvents() {
+  const featured = tournaments
+    .filter(t => (t.tier || '').toLowerCase() === 'featured')
+    .sort((a, b) => (a.date || '').localeCompare(b.date || ''));
+
+  const premium = tournaments
+    .filter(t => (t.tier || '').toLowerCase() === 'premium')
+    .sort((a, b) => (a.date || '').localeCompare(b.date || ''));
+
+  const createCard = t => `
+    <article class="card ${t.tier.toLowerCase()}">
+      <div class="banner">NYMATFINDER • TOURNAMENT</div>
+      <div class="inner">
+        <span class="pill">${t.tier.toUpperCase()}</span>
+        <h3>${t.name}</h3>
+        <div class="muted">
+          📍 ${t.city}, ${t.state}<br>
+          📅 ${t.date || 'Date TBD'}<br>
+          🤼 ${t.style} · ${t.age}
+        </div>
+      </div>
+    </article>
+  `;
+
+  document.querySelector('#homepage-featured').innerHTML =
+    featured.map(createCard).join('');
+
+  document.querySelector('#homepage-premium').innerHTML =
+    premium.map(createCard).join('');
+
+  document.querySelector('#featured-events').style.display =
+    featured.length || premium.length ? '' : 'none';
+}
+
+['query','state','style','age'].forEach(id=>document.getElementById(id).addEventListener('input',render));render();document.querySelector('#form').addEventListener('submit', async e => {
   e.preventDefault();
 
   const feedback = document.querySelector('#feedback');
@@ -150,8 +200,8 @@ tournaments = data.map(t => ({
 }));
 
 render();
-
-    console.log("NYmatfinder tournaments loaded:", tournaments);
+renderHomepageEvents();
+console.log("NYmatfinder tournaments loaded:", tournaments);
   } catch (error) {
     console.error("Unable to load NYmatfinder tournaments:", error);
   }
