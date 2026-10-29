@@ -314,6 +314,7 @@ if (isAdmin !== true) {
 loginMessage.textContent = "Administrator access verified!";
     document.getElementById("admin-dashboard").hidden = false;
     await loadPendingSubmissions(data.access_token);
+    await loadApprovedSubmissions(data.access_token);
     loginForm.reset();
 
   } catch (error) {
