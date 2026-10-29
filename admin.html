@@ -233,6 +233,7 @@ async function updateSubmissionStatus(id, newStatus) {
 
     alert(`Tournament ${newStatus} successfully!`);
 await loadPendingSubmissions(accessToken);
+ await loadApprovedSubmissions(accessToken);
   } catch (error) {
     alert(error.message);
   }
