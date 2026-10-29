@@ -171,8 +171,9 @@ async function loadApprovedSubmissions(accessToken) {
         `Date: ${tournament.tournament_date} | ` +
         `Location: ${tournament.city}, ${tournament.state} | ` +
         `Contact: ${tournament.contact_email} | ` +
-        `Package: ${tournament.listing_package} | ` +
-        `Status: Approved`;
+       `Package: ${tournament.listing_package} | ` +
+`Status: Approved | ` +
+`Payment Status: ${tournament.payment_status}`;
 
       card.append(heading, details);
       container.appendChild(card);
