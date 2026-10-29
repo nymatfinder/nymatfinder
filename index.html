@@ -273,7 +273,8 @@ function renderHomepageEvents() {
     additional_details: document.querySelector('#details').value.trim()
   };
 
-   const submitButton = e.currentTarget.querySelector('button[type="submit"]');
+const form = e.currentTarget;
+const submitButton = form.querySelector('button[type="submit"]');
 
   submitButton.disabled = true;
   feedback.textContent = 'Submitting your tournament...';
@@ -299,7 +300,7 @@ function renderHomepageEvents() {
     feedback.textContent =
       'Tournament submitted successfully! Your event is pending approval.';
 
-    e.currentTarget.reset();
+    form.reset();
 
   } catch (error) {
     console.error('Tournament submission error:', error);
