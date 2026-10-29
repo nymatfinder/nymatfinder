@@ -90,6 +90,25 @@ async function loadPendingSubmissions(accessToken) {
           <strong>Details:</strong> ${escapeHTML(t.additional_details || "None provided")}
         </p>
         <p><strong>Status:</strong> Pending review</p>
+     <div style="display:flex;gap:10px;margin-top:12px;">
+  <button
+    type="button"
+    class="approve-btn"
+    data-id="${t.id}"
+    style="background:#198754;color:white;padding:10px 20px;border:0;border-radius:5px;cursor:pointer;"
+  >
+    Approve
+  </button>
+
+  <button
+    type="button"
+    class="reject-btn"
+    data-id="${t.id}"
+    style="background:#dc3545;color:white;padding:10px 20px;border:0;border-radius:5px;cursor:pointer;"
+  >
+    Reject
+  </button>
+</div>   
       </article>
     `).join("");
 
@@ -100,6 +119,59 @@ async function loadPendingSubmissions(accessToken) {
     message.textContent = error.message;
   }
 }  
+async function updateSubmissionStatus(id, newStatus) {
+  if (!["approved", "rejected"].includes(newStatus)) {
+    return;
+  }
+
+  const accessToken = sessionStorage.getItem("nymatfinder_access_token");
+
+  if (!accessToken) {
+    alert("Please log in again.");
+    return;
+  }
+
+  const confirmed = confirm(
+    `Are you sure you want to ${newStatus === "approved" ? "approve" : "reject"} this tournament?`
+  );
+
+  if (!confirmed) return;
+
+  try {
+    const response = await fetch(
+      `${SUPABASE_URL}/rest/v1/tournament_submissions?id=eq.${encodeURIComponent(id)}&submission_status=eq.pending`,
+      {
+        method: "PATCH",
+        headers: {
+          "apikey": SUPABASE_KEY,
+          "Authorization": `Bearer ${accessToken}`,
+          "Content-Type": "application/json",
+          "Prefer": "return=representation"
+        },
+        body: JSON.stringify({
+          submission_status: newStatus
+        })
+      }
+    );
+
+    if (!response.ok) {
+      throw new Error(`Update failed (${response.status}).`);
+    }
+
+    const updated = await response.json();
+
+    if (updated.length !== 1) {
+      throw new Error("Submission was not updated. It may already have been reviewed.");
+    }
+
+    alert(`Tournament ${newStatus} successfully!`);
+
+    await loadPendingSubmissions(accessToken);
+
+  } catch (error) {
+    alert(error.message);
+  }
+}
 const loginForm = document.getElementById("admin-login");
 const loginMessage = document.getElementById("login-message");
 
