@@ -125,7 +125,66 @@ async function loadPendingSubmissions(accessToken) {
     console.error("Loading submissions failed:", error);
     message.textContent = error.message;
   }
-}  
+} 
+async function loadApprovedSubmissions(accessToken) {
+  const container = document.getElementById("approved-submissions");
+  const message = document.getElementById("approved-message");
+
+  message.textContent = "Loading approved tournaments...";
+
+  try {
+    const response = await fetch(
+      `${SUPABASE_URL}/rest/v1/tournament_submissions?select=id,tournament_name,tournament_date,city,state,contact_email,listing_package&submission_status=eq.approved&order=created_at.desc`,
+      {
+        headers: {
+          "apikey": SUPABASE_KEY,
+          "Authorization": `Bearer ${accessToken}`
+        }
+      }
+    );
+
+    if (!response.ok) {
+      throw new Error(`Unable to load approved tournaments (${response.status}).`);
+    }
+
+    const submissions = await response.json();
+
+    container.replaceChildren();
+
+    if (submissions.length === 0) {
+      message.textContent = "No approved tournaments yet.";
+      return;
+    }
+
+    submissions.forEach(tournament => {
+      const card = document.createElement("div");
+
+      card.style.cssText =
+        "border:1px solid #ddd;border-radius:8px;padding:16px;margin:12px 0;";
+
+      const heading = document.createElement("h3");
+      heading.textContent = tournament.tournament_name;
+
+      const details = document.createElement("p");
+
+      details.textContent =
+        `Date: ${tournament.tournament_date} | ` +
+        `Location: ${tournament.city}, ${tournament.state} | ` +
+        `Contact: ${tournament.contact_email} | ` +
+        `Package: ${tournament.listing_package} | ` +
+        `Status: Approved`;
+
+      card.append(heading, details);
+      container.appendChild(card);
+    });
+
+    message.textContent = `${submissions.length} approved tournament(s).`;
+
+  } catch (error) {
+    console.error("Loading approved submissions failed:", error);
+    message.textContent = error.message;
+  }
+} 
 async function updateSubmissionStatus(id, newStatus) {
   if (!["approved", "rejected"].includes(newStatus)) {
     return;
