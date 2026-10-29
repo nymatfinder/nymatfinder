@@ -40,6 +40,66 @@
 <script>
   const SUPABASE_URL = "https://phfijrkrcoanxwzdstjk.supabase.co";
   const SUPABASE_KEY = "sb_publishable_uvoUWKajiVZ_H7Kkte16Gw_1GDnOIO_";
+async function loadPendingSubmissions(accessToken) {
+  const container = document.getElementById("pending-submissions");
+  const message = document.getElementById("submissions-message");
+
+  message.textContent = "Loading submissions...";
+
+  try {
+    const response = await fetch(
+      `${SUPABASE_URL}/rest/v1/tournament_submissions?select=*&submission_status=eq.pending`,
+      {
+        headers: {
+          "apikey": SUPABASE_KEY,
+          "Authorization": `Bearer ${accessToken}`
+        }
+      }
+    );
+
+    if (!response.ok) {
+      throw new Error("Unable to load submissions (" + response.status + ").");
+    }
+
+    const submissions = await response.json();
+
+    const escapeHTML = value =>
+      String(value ?? "").replace(/[&<>"']/g, char => ({
+        "&": "&amp;",
+        "<": "&lt;",
+        ">": "&gt;",
+        '"': "&quot;",
+        "'": "&#39;"
+      }[char]));
+
+    if (!submissions.length) {
+      container.innerHTML = "";
+      message.textContent = "There are no pending tournament submissions.";
+      return;
+    }
+
+    container.innerHTML = submissions.map(t => `
+      <article style="border:1px solid #ddd;border-radius:8px;padding:16px;margin:16px 0;">
+        <h3>${escapeHTML(t.tournament_name)}</h3>
+        <p>
+          <strong>Date:</strong> ${escapeHTML(t.tournament_date || "TBD")}<br>
+          <strong>Location:</strong> ${escapeHTML(t.city)}, ${escapeHTML(t.state)}<br>
+          <strong>Contact:</strong> ${escapeHTML(t.contact_email)}<br>
+          <strong>Package:</strong> ${escapeHTML(t.listing_package)}<br>
+          <strong>Style:</strong> ${escapeHTML(t.wrestling_style || "Not specified")}<br>
+          <strong>Details:</strong> ${escapeHTML(t.additional_details || "None provided")}
+        </p>
+        <p><strong>Status:</strong> Pending review</p>
+      </article>
+    `).join("");
+
+    message.textContent = `${submissions.length} pending submission(s).`;
+
+  } catch (error) {
+    console.error("Loading submissions failed:", error);
+    message.textContent = error.message;
+  }
+}  
 const loginForm = document.getElementById("admin-login");
 const loginMessage = document.getElementById("login-message");
 
@@ -99,6 +159,7 @@ if (isAdmin !== true) {
 
 loginMessage.textContent = "Administrator access verified!";
     document.getElementById("admin-dashboard").hidden = false;
+    await loadPendingSubmissions(data.access_token);
     loginForm.reset();
 
   } catch (error) {
