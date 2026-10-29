@@ -219,7 +219,7 @@ function renderHomepageEvents() {
     ? `<div class="flyer-container">
          <img
            src="${flyer.replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;')}"
-           alt="Tournament flyer"
+ f          alt="Tournament flyer"
            loading="lazy"
            style="width:100%;height:auto;display:block;"
          >
@@ -273,13 +273,43 @@ function renderHomepageEvents() {
     additional_details: document.querySelector('#details').value.trim()
   };
 
-  console.log('Tournament submission prepared:', {
-    tournament_name: submission.tournament_name,
-    tournament_date: submission.tournament_date
-  });
+   const submitButton = e.currentTarget.querySelector('button[type="submit"]');
 
-  feedback.textContent =
-    'Submission preview ready. Online submissions are not yet active.';
+  submitButton.disabled = true;
+  feedback.textContent = 'Submitting your tournament...';
+
+  try {
+    const response = await fetch(
+      SUPABASE_URL + '/rest/v1/tournament_submissions',
+      {
+        method: 'POST',
+        headers: {
+          'apikey': SUPABASE_KEY,
+          'Content-Type': 'application/json',
+          'Prefer': 'return=minimal'
+        },
+        body: JSON.stringify(submission)
+      }
+    );
+
+    if (!response.ok) {
+      throw new Error('Submission failed: ' + response.status);
+    }
+
+    feedback.textContent =
+      'Tournament submitted successfully! Your event is pending approval.';
+
+    e.currentTarget.reset();
+
+  } catch (error) {
+    console.error('Tournament submission error:', error);
+
+    feedback.textContent =
+      'Unable to submit your tournament. Please try again later.';
+
+  } finally {
+    submitButton.disabled = false;
+  }
 });</script>
 <script>
 const SUPABASE_URL = "https://phfijrkrcoanxwzdstjk.supabase.co";
