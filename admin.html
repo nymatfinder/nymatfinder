@@ -9,7 +9,68 @@
 
   <h1>NYmatfinder Admin Dashboard</h1>
 
-  <p>Administrator login required.</p>
+  <label for="admin-email">Email</label>
+    <input
+      type="email"
+      id="admin-email"
+      autocomplete="username"
+      required
+    >
 
+    <label for="admin-password">Password</label>
+    <input
+      type="password"
+      id="admin-password"
+      autocomplete="current-password"
+      required
+    >
+
+    <button type="submit">Log In</button>
+  </form>
+
+  <p id="login-message" role="status"></p>
+<script>
+  const SUPABASE_URL = "https://phfijrkrcoanxwzdstjk.supabase.co";
+  const SUPABASE_KEY = "sb_publishable_uvoUWKajiVZ_H7Kkte16Gw_1GDnOIO_";
+const loginForm = document.getElementById("admin-login");
+const loginMessage = document.getElementById("login-message");
+
+loginForm.addEventListener("submit", async (event) => {
+  event.preventDefault();
+
+  const email = document.getElementById("admin-email").value;
+  const password = document.getElementById("admin-password").value;
+
+  loginMessage.textContent = "Signing in...";
+
+  try {
+    const response = await fetch(
+      `${SUPABASE_URL}/auth/v1/token?grant_type=password`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "apikey": SUPABASE_KEY
+        },
+        body: JSON.stringify({ email, password })
+      }
+    );
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      throw new Error(data.msg || data.error_description || "Login failed.");
+    }
+
+    sessionStorage.setItem("nymatfinder_access_token", data.access_token);
+
+    loginMessage.textContent = "Login successful!";
+    loginForm.reset();
+
+  } catch (error) {
+    loginMessage.textContent = error.message;
+  }
+});  
+</script>
 </body>
 </html>
