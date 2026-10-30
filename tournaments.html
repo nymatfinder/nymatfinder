@@ -1,1 +1,227 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>All Wrestling Tournaments | NYmatfinder</title><style>:root{--navy:#102b4a;--blue:#245d95;--gold:#e7b34d;--bg:#f4f7fb}*{box-sizing:border-box}body{margin:0;font-family:Arial,Helvetica,sans-serif;color:#172c42;background:var(--bg)}header{background:#fff;display:flex;justify-content:space-between;align-items:center;padding:15px max(5%,calc((100% - 1200px)/2));gap:20px;flex-wrap:wrap} .brand{font-size:27px;font-weight:900;color:var(--navy);letter-spacing:-1px}.brand span{color:var(--blue)}nav a{margin-left:20px;text-decoration:none;color:var(--navy);font-weight:700;font-size:14px}.btn{background:var(--gold);border:0;border-radius:5px;padding:12px 18px;font-weight:800;cursor:pointer;color:#132a45}.hero{background:linear-gradient(110deg,rgba(8,32,58,.95),rgba(17,56,96,.85)),radial-gradient(circle at 85% 25%,#759ac3,#102b4a);color:white;padding:75px max(5%,calc((100% - 1200px)/2));min-height:350px}.hero h1{font-size:clamp(38px,6vw,66px);max-width:720px;margin:0 0 12px;line-height:1.04}.hero p{font-size:19px;max-width:640px;line-height:1.5}.tag{color:#f2c970;font-weight:800;letter-spacing:2px}.wrap{max-width:1200px;margin:auto;padding:35px 5%}h2{font-size:28px;margin:0 0 16px}.search{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:10px;background:white;padding:18px;border-radius:12px;box-shadow:0 6px 20px #132c4a12;margin-top:-60px;position:relative}.search input,.search select,form input,form select,form textarea{width:100%;border:1px solid #cdd8e4;border-radius:6px;padding:13px;font:inherit;background:#fff} .cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:18px}.card{background:white;border:1px solid #e0e7ef;border-radius:10px;overflow:hidden;box-shadow:0 3px 12px #102b4a0c}.card .banner{height:75px;background:linear-gradient(120deg,#133e68,#467db1);display:flex;align-items:center;padding:20px;color:white;font-weight:900;letter-spacing:1px}.card .inner{padding:19px}/* Homepage tournament flyer styling */
+#featured-events .flyer-container {
+  width: 100%;
+  overflow: hidden;
+  background: #f1f4f8;
+  text-align: center;
+}
 
+#featured-events .flyer-container img {
+  display: block;
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+}
+
+#homepage-featured .card {
+  border: 3px solid #d4a017;
+}
+
+
+#homepage-featured .card h3 {
+  font-size: 22px;
+}
+
+.pill{display:inline-block;font-size:11px;font-weight:800;background:#e6eef7;color:#19466f;padding:5px 8px;border-radius:3px}.featured{border:2px solid var(--gold)}.featured .pill{background:#fff0c7;color:#6c4900}/* NYmatfinder listing sizes */
+.cards {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  align-items: stretch;
+}
+
+.card {
+  grid-column: span 1;
+}
+
+
+.card.featured {
+  grid-column: span 2;
+  border: 3px solid #d4a017;
+  box-shadow: 0 6px 20px #102b4a22;
+}
+
+
+.card.featured .banner {
+  height: 150px;
+}
+
+@media (max-width: 700px) {
+  .cards {
+    grid-template-columns: 1fr;
+  }
+
+.card,
+.card.featured {
+  grid-column: span 1;
+}
+}.card h3{margin:12px 0}.muted{color:#5b6c7b;font-size:14px;line-height:1.8}.link{display:inline-block;margin-top:12px;color:#15568d;font-weight:800;text-decoration:none;cursor:pointer}.prices{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px}.price{padding:23px;border:1px solid #dce5ef;border-radius:10px;background:white}.price strong{font-size:36px;color:var(--navy)}.price h3{margin:0 0 10px}.price p{color:#526475;line-height:1.6}.section{margin:48px 0}.formbox{background:white;border-radius:12px;padding:25px;max-width:820px;box-shadow:0 3px 15px #102b4a0d}.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}.field{margin:12px 0}.field label{display:block;font-weight:700;font-size:13px;margin-bottom:6px}small{color:#647589}.notice{padding:12px;background:#fff4d9;border-left:4px solid var(--gold);margin:15px 0;color:#584418}.hidden{display:none}footer{background:#102b4a;color:#fff;padding:28px;text-align:center;margin-top:40px}@media(max-width:700px){.search{grid-template-columns:1fr;margin-top:-35px}.grid{grid-template-columns:1fr}nav a{margin:0 12px 0 0}.hero{padding-top:50px;padding-bottom:80px}}</style></head><body><header><div class="brand">NY<span>matfinder</span></div><nav><a href="index.html">Home</a><a href="tournaments.html">All Tournaments</a><a href="index.html#results">Recent Results</a><a href="index.html#pricing">Pricing</a><a href="index.html#submit">Submit Tournament</a></nav></header><section class="hero"><div class="tag">NY + PA</div><h1>ALL WRESTLING<br>TOURNAMENTS.</h1><p>Browse youth and high school wrestling tournaments across New York and Pennsylvania. Search by location, wrestling style, and age group to find your next competition.</p><a class="btn" href="#tournaments" style="display:inline-block;text-decoration:none">Browse All Tournaments →</a></section>
+<main class="wrap">
+
+<div class="search" aria-label="Tournament search"><input id="query" placeholder="Search tournament or city" aria-label="Search tournaments"><select id="state" aria-label="State"><option value="">All States</option><option>NY</option><option>PA</option></select><select id="style" aria-label="Style"><option value="">All Styles</option><option>Folkstyle</option><option>Freestyle</option><option>Greco-Roman</option></select><select id="age" aria-label="Age group"><option value="">All Ages</option><option>Youth</option><option>High School</option></select>
+<input id="filter-date" type="date" aria-label="Show tournaments on or after date">
+</div><section id="tournaments" class="section">
+  <h2>Upcoming Wrestling Tournaments — NY & PA</h2>
+ <p class="muted">
+  Explore upcoming youth and high school wrestling tournaments throughout
+  New York and Pennsylvania. Browse all Basic and Featured listings,
+  search by location, and filter by wrestling style, age group, or date.
+</p>
+  <div id="cards" class="cards"></div>
+</section>
+</main>
+
+<!-- Tournament Details Window -->
+<dialog id="tournament-modal" style="width:min(90%,700px);max-height:90vh;border:none;border-radius:12px;padding:25px;box-shadow:0 10px 40px #0004;">
+  <button
+    type="button"
+    id="close-tournament-modal"
+    aria-label="Close tournament details"
+    style="float:right;background:#133e68;color:white;border:none;padding:10px 15px;border-radius:6px;cursor:pointer;"
+  >
+    ✕ Close
+  </button>
+
+  <div id="tournament-modal-content" style="clear:both;padding-top:15px;"></div>
+</dialog>
+
+<footer>NYmatfinder • Find Your Next Tournament • Serving New York & Pennsylvania Wrestling</footer><script>let tournaments=[];function render() {
+  const q = document.querySelector('#query').value.toLowerCase();
+  const s = document.querySelector('#state').value;
+  const st = document.querySelector('#style').value;
+  const a = document.querySelector('#age').value;
+  const selectedDate = document.querySelector('#filter-date').value;
+  const list = tournaments
+    .filter(t =>
+      (t.name + ' ' + t.city).toLowerCase().includes(q) &&
+      (!s || t.state === s) &&
+      (!st || t.style === st) &&
+     (!a || t.age === a) &&
+(!selectedDate || (t.date && t.date >= selectedDate))
+    )
+    .sort((a, b) =>
+      (a.date || '9999-12-31').localeCompare(b.date || '9999-12-31')
+    );
+
+  document.querySelector('#cards').innerHTML = list.length
+    ? list.map(t => {
+        const tier = (t.tier || 'Basic').trim();
+       const cardClass =
+  tier.toLowerCase() === 'featured' ? 'featured' : '';
+
+        return `
+          <article class="card ${cardClass}">
+            <div class="banner">NYMATFINDER • TOURNAMENT</div>
+            <div class="inner">
+              <span class="pill">${tier.toUpperCase()}</span>
+              <h3>${t.name}</h3>
+              <div class="muted">
+                📍 ${t.city}, ${t.state}<br>
+                📅 ${t.date || 'Date TBD'}<br>
+                🤼 ${t.style} · ${t.age}
+              </div>
+              <button
+  type="button"
+  class="link"
+  data-tournament-id="${t.id}"
+  onclick="openTournamentDetails(this.dataset.tournamentId)"
+  style="background:none;border:none;padding:0;font-size:14px;"
+>
+  Tournament Details →
+</button>
+            </div>
+          </article>
+        `;
+      }).join('')
+: '<p>No tournaments are currently available. Check back soon!</p>';
+}
+function openTournamentDetails(id) {
+  const tournament = tournaments.find(t => String(t.id) === String(id));
+
+  if (!tournament) {
+    alert('Tournament details are unavailable.');
+    return;
+  }
+
+  const escapeHTML = value => String(value ?? '').replace(/[&<>"']/g, char => ({
+    '&': '&amp;',
+    '<': '&lt;',
+    '>': '&gt;',
+    '"': '&quot;',
+    "'": '&#39;'
+  }[char]));
+
+  const flyer = tournament.flyer || '';
+  const safeFlyer = /^https?:\/\//i.test(flyer)
+    ? escapeHTML(flyer)
+    : '';
+
+  document.querySelector('#tournament-modal-content').innerHTML = `
+    <h2>${escapeHTML(tournament.name)}</h2>
+
+    <p>
+      📅 <strong>Date:</strong> ${escapeHTML(tournament.date || 'TBD')}<br>
+      📍 <strong>Location:</strong> ${escapeHTML(tournament.city)}, ${escapeHTML(tournament.state)}<br>
+      🤼 <strong>Style:</strong> ${escapeHTML(tournament.style || 'TBD')}<br>
+      <strong>Age Division:</strong> ${escapeHTML(tournament.age || 'TBD')}
+    </p>
+
+    ${safeFlyer
+      ? `<img src="${safeFlyer}" alt="Flyer for ${escapeHTML(tournament.name)}"
+           style="width:100%;height:auto;margin-top:15px;border-radius:8px;">`
+      : '<p>Flyer not available yet.</p>'
+    }
+  `;
+
+  document.querySelector('#tournament-modal').showModal();
+}
+
+document.querySelector('#close-tournament-modal')
+  .addEventListener('click', () => {
+    document.querySelector('#tournament-modal').close();
+  });
+
+['query','state','style','age','filter-date'].forEach(id=>document.getElementById(id).addEventListener('input',render));render();
+</script>
+<script>
+const SUPABASE_URL = "https://phfijrkrcoanxwzdstjk.supabase.co";
+const SUPABASE_KEY = "sb_publishable_uvoUWKajiVZ_H7Kkte16Gw_1GDnOIO_";
+
+async function loadNYmatfinderTournaments() {
+  try {
+    const response = await fetch(
+      SUPABASE_URL + "/rest/v1/public_tournaments?select=*&order=tournament_date.asc",
+      {
+        headers: {
+          "apikey": SUPABASE_KEY
+        }
+      }
+    );
+
+    if (!response.ok) {
+      throw new Error("Supabase returned " + response.status);
+    }
+
+const data = await response.json();
+
+tournaments = data.map(t => ({
+  id: t.id,
+  name: t.tournament_name,
+  city: t.city,
+  state: t.state,
+  style: t.wrestling_style,
+  age: t.age_division,
+  tier: t.listing_package,
+  date: t.tournament_date,
+  flyer: t.flyer_url || ''
+}));
+
+render();
+
+console.log("NYmatfinder tournaments loaded:", tournaments);
+  } catch (error) {
+    console.error("Unable to load NYmatfinder tournaments:", error);
+  }
+}
+
+loadNYmatfinderTournaments();
+</script>
+</body></html>
