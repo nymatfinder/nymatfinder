@@ -187,9 +187,48 @@ if (tournament.payment_status === "unpaid") {
     "background:#1677ff;color:white;border:none;" +
     "padding:10px 16px;border-radius:6px;cursor:pointer;";
 
+paymentButton.disabled = false;
+paymentButton.title = "Email a secure Stripe payment link to the tournament director";
+paymentButton.addEventListener("click", async () => {
   paymentButton.disabled = true;
-  paymentButton.title = "Payment email integration coming soon";
+  paymentButton.textContent = "Sending...";
 
+  try {
+    const token = sessionStorage.getItem("nymatfinder_access_token");
+
+    if (!token) {
+      throw new Error("Please log in to the admin dashboard again.");
+    }
+
+    const response = await fetch(
+      "https://phfijrkrcoanxwzdstjk.supabase.co/functions/v1/create-tournament-checkout",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${token}`,
+         "apikey": SUPABASE_KEY
+        },
+        body: JSON.stringify({
+          submission_id: tournament.id
+        })
+      }
+    );
+
+    const result = await response.json();
+
+    if (!response.ok) {
+      throw new Error(result.error || "Unable to send payment link.");
+    }
+
+    alert("Payment link emailed successfully!");
+  } catch (error) {
+    alert(error.message || "Something went wrong.");
+  } finally {
+    paymentButton.disabled = false;
+    paymentButton.textContent = "Send Payment Link";
+  }
+});
   card.appendChild(paymentButton);
 }
 
