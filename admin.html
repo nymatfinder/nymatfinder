@@ -175,8 +175,25 @@ async function loadApprovedSubmissions(accessToken) {
 `Status: Approved | ` +
 `Payment Status: ${tournament.payment_status}`;
 
-      card.append(heading, details);
-      container.appendChild(card);
+card.append(heading, details);
+
+if (tournament.payment_status === "unpaid") {
+  const paymentButton = document.createElement("button");
+
+  paymentButton.textContent = "Send Payment Link";
+  paymentButton.type = "button";
+
+  paymentButton.style.cssText =
+    "background:#1677ff;color:white;border:none;" +
+    "padding:10px 16px;border-radius:6px;cursor:pointer;";
+
+  paymentButton.disabled = true;
+  paymentButton.title = "Payment email integration coming soon";
+
+  card.appendChild(paymentButton);
+}
+
+container.appendChild(card);
     });
 
     message.textContent = `${submissions.length} approved tournament(s).`;
