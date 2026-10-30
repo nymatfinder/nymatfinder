@@ -127,9 +127,8 @@
   document.querySelector('#cards').innerHTML = list.length
     ? list.map(t => {
         const tier = (t.tier || 'Basic').trim();
-        const cardClass =
-          tier.toLowerCase() === 'featured' ? 'featured' :
-          tier.toLowerCase() === 'premium' ? 'premium' : '';
+       const cardClass =
+  tier.toLowerCase() === 'featured' ? 'featured' : '';
 
         return `
           <article class="card ${cardClass}">
