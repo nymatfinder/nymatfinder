@@ -17,17 +17,12 @@
   border: 3px solid #d4a017;
 }
 
-#homepage-premium .card {
-  border: 2px solid #467db1;
-}
 
 #homepage-featured .card h3 {
   font-size: 22px;
 }
 
-#homepage-premium .card h3 {
-  font-size: 18px;
-}.pill{display:inline-block;font-size:11px;font-weight:800;background:#e6eef7;color:#19466f;padding:5px 8px;border-radius:3px}.featured{border:2px solid var(--gold)}.featured .pill{background:#fff0c7;color:#6c4900}/* NYmatfinder listing sizes */
+.pill{display:inline-block;font-size:11px;font-weight:800;background:#e6eef7;color:#19466f;padding:5px 8px;border-radius:3px}.featured{border:2px solid var(--gold)}.featured .pill{background:#fff0c7;color:#6c4900}/* NYmatfinder listing sizes */
 .cards {
   grid-template-columns: repeat(4, minmax(0, 1fr));
   align-items: stretch;
@@ -37,10 +32,6 @@
   grid-column: span 1;
 }
 
-.card.premium {
-  grid-column: span 2;
-  border: 2px solid #467db1;
-}
 
 .card.featured {
   grid-column: span 2;
@@ -48,9 +39,6 @@
   box-shadow: 0 6px 20px #102b4a22;
 }
 
-.card.premium .banner {
-  height: 110px;
-}
 
 .card.featured .banner {
   height: 150px;
@@ -61,11 +49,10 @@
     grid-template-columns: 1fr;
   }
 
-  .card,
-  .card.premium,
-  .card.featured {
-    grid-column: span 1;
-  }
+.card,
+.card.featured {
+  grid-column: span 1;
+}
 }.card h3{margin:12px 0}.muted{color:#5b6c7b;font-size:14px;line-height:1.8}.link{display:inline-block;margin-top:12px;color:#15568d;font-weight:800;text-decoration:none;cursor:pointer}.prices{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px}.price{padding:23px;border:1px solid #dce5ef;border-radius:10px;background:white}.price strong{font-size:36px;color:var(--navy)}.price h3{margin:0 0 10px}.price p{color:#526475;line-height:1.6}.section{margin:48px 0}.formbox{background:white;border-radius:12px;padding:25px;max-width:820px;box-shadow:0 3px 15px #102b4a0d}.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}.field{margin:12px 0}.field label{display:block;font-weight:700;font-size:13px;margin-bottom:6px}small{color:#647589}.notice{padding:12px;background:#fff4d9;border-left:4px solid var(--gold);margin:15px 0;color:#584418}.hidden{display:none}footer{background:#102b4a;color:#fff;padding:28px;text-align:center;margin-top:40px}@media(max-width:700px){.search{grid-template-columns:1fr;margin-top:-35px}.grid{grid-template-columns:1fr}nav a{margin:0 12px 0 0}.hero{padding-top:50px;padding-bottom:80px}}</style></head><body><header><div class="brand">NY<span>matfinder</span></div><nav><a href="#tournaments">Find Tournaments</a><a href="#results">Recent Results</a><a href="#pricing">Pricing</a><a href="#submit">Submit Tournament</a></nav></header><section class="hero"><div class="tag">NY + PA</div><h1>FIND YOUR NEXT<br>TOURNAMENT.</h1><p>The home for youth and high school wrestling tournaments across NY and PA. Find the right competition, see event details, and get on the mat.</p><a class="btn" href="#tournaments" style="display:inline-block;text-decoration:none">Explore Tournaments →</a></section>
 <main class="wrap">
 
@@ -220,10 +207,6 @@ function renderHomepageEvents() {
     .filter(t => (t.tier || '').toLowerCase() === 'featured')
     .sort((a, b) => (a.date || '').localeCompare(b.date || ''));
 
-  const premium = tournaments
-    .filter(t => (t.tier || '').toLowerCase() === 'premium')
-    .sort((a, b) => (a.date || '').localeCompare(b.date || ''));
-
  const createCard = t => {
   const tier = (t.tier || 'Basic').trim();
   const flyer = t.flyer || '';
@@ -232,7 +215,7 @@ function renderHomepageEvents() {
     ? `<div class="flyer-container">
          <img
            src="${flyer.replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;')}"
- f          alt="Tournament flyer"
+       alt="Tournament flyer"
            loading="lazy"
            style="width:100%;height:auto;display:block;"
          >
@@ -258,11 +241,8 @@ function renderHomepageEvents() {
   document.querySelector('#homepage-featured').innerHTML =
     featured.map(createCard).join('');
 
-  document.querySelector('#homepage-premium').innerHTML =
-    premium.map(createCard).join('');
-
-  document.querySelector('#featured-events').style.display =
-    featured.length || premium.length ? '' : 'none';
+ document.querySelector('#featured-events').style.display =
+  featured.length ? '' : 'none';
 }
 
 ['query','state','style','age'].forEach(id=>document.getElementById(id).addEventListener('input',render));render();document.querySelector('#form').addEventListener('submit', async e => {
