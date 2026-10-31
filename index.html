@@ -87,7 +87,20 @@
   <label for="website_check">Leave this field empty</label>
   <input id="website_check" name="website_check" type="text" tabindex="-1" autocomplete="off">
 </div>
-<div class="grid"><div class="field"><label for="name">Tournament name *</label><input id="name" required></div><div class="field"><label for="date">Tournament date *</label><input id="date" type="date" required></div><div class="field"><label for="city">City *</label><input id="city" required></div><div class="field"><label for="eventstate">State *</label><select id="eventstate" required><option value="">Choose state</option><option>NY</option><option>PA</option></select></div><div class="field"><label for="contact">Contact email *</label><input id="contact" type="email" required></div><div class="field"><label for="package">Listing package *</label><select id="package" required><option value="">Choose package</option><option>Basic — $10</option><option>Featured — $20</option></select></div><div class="field"><label for="eventstyle">Wrestling style</label><select id="eventstyle"><option>Folkstyle</option><option>Freestyle</option><option>Greco-Roman</option></select></div><div class="field"><label for="flyer">Flyer (PDF, JPG, PNG)</label><input id="flyer" type="file" accept=".pdf,.jpg,.jpeg,.png,application/pdf,image/jpeg,image/png">
+<div class="grid"><div class="field"><label for="name">Tournament name *</label><input id="name" required></div><div class="field"><label for="date">Tournament date *</label><input id="date" type="date" required></div><div class="field">
+  <label for="city">City *</label>
+  <input id="city" required>
+</div>
+
+<div class="field">
+  <label for="venue">Venue Name *</label>
+  <input id="venue" placeholder="Example: Binghamton High School" required>
+</div>
+
+<div class="field">
+  <label for="address">Street Address *</label>
+  <input id="address" placeholder="Example: 31 Main Street" required>
+</div><div class="field"><label for="eventstate">State *</label><select id="eventstate" required><option value="">Choose state</option><option>NY</option><option>PA</option></select></div><div class="field"><label for="contact">Contact email *</label><input id="contact" type="email" required></div><div class="field"><label for="package">Listing package *</label><select id="package" required><option value="">Choose package</option><option>Basic — $10</option><option>Featured — $20</option></select></div><div class="field"><label for="eventstyle">Wrestling style</label><select id="eventstyle"><option>Folkstyle</option><option>Freestyle</option><option>Greco-Roman</option></select></div><div class="field"><label for="flyer">Flyer (PDF, JPG, PNG)</label><input id="flyer" type="file" accept=".pdf,.jpg,.jpeg,.png,application/pdf,image/jpeg,image/png">
 <small>Optional: Upload a PDF, JPG, or PNG tournament flyer (maximum 10 MB).</small></div></div><div class="field"><label for="details">Additional tournament details</label><textarea id="details" rows="5" placeholder="Divisions, weigh-ins, fees, registration link, venue address, official results link (if completed)..."></textarea></div><div class="cf-turnstile" data-sitekey="0x4AAAAAAFtagBKGzRwW_ZoH"></div><button class="btn" type="submit">Submit Tournament for Approval</button><p id="feedback" role="status"></p></form></div></section></main>
 
 <!-- Tournament Details Window -->
@@ -210,7 +223,9 @@ if (!turnstileToken) {
     tournament_name: document.querySelector('#name').value.trim(),
     tournament_date: document.querySelector('#date').value,
     city: document.querySelector('#city').value.trim(),
-    state: document.querySelector('#eventstate').value,
+venue_name: document.querySelector('#venue').value.trim(),
+street_address: document.querySelector('#address').value.trim(),
+state: document.querySelector('#eventstate').value,
     contact_email: document.querySelector('#contact').value.trim(),
     listing_package: document.querySelector('#package').value.split(' — ')[0],
     wrestling_style: document.querySelector('#eventstyle').value,
