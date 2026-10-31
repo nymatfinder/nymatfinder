@@ -184,62 +184,96 @@ function renderHomepageEvents() {
     .filter(t => (t.tier || '').toLowerCase() === 'featured')
     .sort((a, b) => (a.date || '').localeCompare(b.date || ''));
 
- const createCard = t => {
-  const tier = (t.tier || 'Basic').trim();
-  const flyer = t.flyer || '';
+  const escapeHTML = value => String(value ?? '')
+    .replace(/&/g, '&amp;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;');
 
-  const safeFlyer = /^https?:\/\//i.test(flyer)
-    ? flyer
-        .replace(/&/g, '&amp;')
-        .replace(/"/g, '&quot;')
-        .replace(/</g, '&lt;')
-        .replace(/>/g, '&gt;')
-    : '';
+  const createCard = t => {
+    const name = t.name || 'Wrestling Tournament';
+    const flyer = t.flyer || '';
+    const safeFlyer = /^https?:\/\//i.test(flyer)
+      ? escapeHTML(flyer)
+      : '';
 
-  const isPDF = /\.pdf(?:[?#]|$)/i.test(flyer);
+    const isPDF = /\.pdf(?:[?#]|$)/i.test(flyer);
 
-  const flyerHTML = safeFlyer
-    ? isPDF
-      ? `<div class="flyer-container" style="padding:20px;text-align:center;">
-           <p>📄 Tournament Flyer Available</p>
-           <a href="${safeFlyer}"
-              target="_blank"
-              rel="noopener noreferrer"
-              class="btn">
-             View Tournament Flyer (PDF)
-           </a>
-         </div>`
-      : `<div class="flyer-container">
-           <img
-             src="${safeFlyer}"
-             alt="Tournament flyer"
-             loading="lazy"
-             style="width:100%;height:auto;display:block;"
-           >
-         </div>`
-    : `<div class="banner">NYMATFINDER • TOURNAMENT</div>`;
+    // Tournament-specific colors
+    let theme = 'featured-default';
 
-  return `
-    <article class="card ${tier.toLowerCase()}">
-      ${flyerHTML}
-      <div class="inner">
-        <span class="pill">${tier.toUpperCase()}</span>
-        <h3>${t.name}</h3>
-        <div class="muted">
-          📍 ${t.city}, ${t.state}<br>
-          📅 ${t.date || 'Date TBD'}<br>
-          🤼 ${t.style} · ${t.age}
+    if (/hanover/i.test(name)) {
+      theme = 'featured-hanover';
+    } else if (/palmerton/i.test(name)) {
+      theme = 'featured-palmerton';
+    } else if (/susquehanna valley/i.test(name)) {
+      theme = 'featured-sv';
+    }
+
+    // Display the actual flyer when it's an image.
+    // PDFs get a prominent flyer button instead.
+    const flyerPreview = safeFlyer && !isPDF
+      ? `<img src="${safeFlyer}"
+              alt="${escapeHTML(name)} flyer"
+              loading="lazy"
+              class="featured-image">`
+      : `<div class="featured-placeholder">
+           <span>🏆</span>
+           <strong>${escapeHTML(name)}</strong>
+         </div>`;
+
+    const flyerButton = safeFlyer
+      ? `<a href="${safeFlyer}"
+             target="_blank"
+             rel="noopener noreferrer"
+             class="featured-flyer-btn">
+           📄 VIEW TOURNAMENT FLYER →
+         </a>`
+      : '';
+
+    return `
+      <article class="featured-showcase-card ${theme}">
+        <div class="featured-ribbon">★ FEATURED TOURNAMENT ★</div>
+
+        <div class="featured-visual">
+          ${flyerPreview}
         </div>
-      </div>
-    </article>
-  `;
-};
 
-  document.querySelector('#homepage-featured').innerHTML =
-    featured.map(createCard).join('');
+        <div class="featured-event-name">
+          ${escapeHTML(name)}
+        </div>
 
+        <div class="featured-event-details">
+          <div class="featured-date">
+            📅 ${escapeHTML(t.date || 'Date TBD')}
+          </div>
+
+          <div class="featured-location">
+            📍 ${escapeHTML(t.city || '')}, ${escapeHTML(t.state || '')}
+          </div>
+
+          <div class="featured-meta">
+            ${escapeHTML(t.style || 'Folkstyle')}
+            · ${escapeHTML(t.age || 'Youth')}
+          </div>
+        </div>
+
+        ${flyerButton}
+      </article>
+    `;
+  };
+
+  const container = document.querySelector('#homepage-featured');
+
+  if (!container) return;
+
+  container.classList.add('featured-showcase-grid');
+
+  container.innerHTML = featured.length
+    ? featured.map(createCard).join('')
+    : '<p>No featured tournaments available yet.</p>';
 }
-
 document.querySelector('#form').addEventListener('submit', async e => {
   e.preventDefault();
 
