@@ -57,7 +57,7 @@
 <main class="wrap">
 
 <nav class="state-tabs" aria-label="Tournament states"><a href="tournaments.html" data-state="">All Tournaments</a><a href="tournaments.html?state=NY" data-state="NY">New York Tournaments</a><a href="tournaments.html?state=PA" data-state="PA">Pennsylvania Tournaments</a><a href="tournaments.html?state=NJ" data-state="NJ">New Jersey Tournaments</a></nav>
-<div class="search" aria-label="Tournament search"><label class="filter-field"><span>Tournament or city</span><input id="query" placeholder="Search tournament or city" aria-label="Search tournaments"></label><label class="filter-field"><span>State</span><select id="state" aria-label="State"><option value="">All States</option><option>NY</option><option>PA</option><option>NJ</option></select></label><label class="filter-field"><span>Wrestling style</span><select id="style" aria-label="Style"><option value="">All Styles</option><option>Folkstyle</option><option>Freestyle</option><option>Greco-Roman</option></select></label><label class="filter-field"><span>Age group</span><select id="age" aria-label="Age group"><option value="">All Ages</option><option>Youth</option><option>High School</option></select></label>
+<div class="search" aria-label="Tournament search"><label class="filter-field"><span>Tournament or city</span><input id="query" placeholder="Search tournament or city" aria-label="Search tournaments"></label><label class="filter-field"><span>State</span><select id="state" aria-label="State"><option value="">All States</option><option>NY</option><option>PA</option><option>NJ</option></select></label><label class="filter-field"><span>Wrestling style</span><select id="style" aria-label="Style"><option value="">All Styles</option><option>Folkstyle</option><option>Freestyle</option><option>Greco-Roman</option></select></label><label class="filter-field"><span>Age group</span><select id="age" aria-label="Age group"><option value="">All Ages</option><option>Youth</option><option>Modified</option><option>High School</option></select></label>
 <label class="filter-field"><span>On or after</span><input id="filter-date" type="date" aria-label="Show tournaments on or after date"></label>
 </div><section id="tournaments" class="section">
   <h2 id="directory-title">Upcoming Wrestling Tournaments — NY, PA & NJ</h2>
@@ -84,7 +84,13 @@
   <div id="tournament-modal-content" style="clear:both;padding-top:15px;"></div>
 </dialog>
 
-<footer>NYmatfinder • Find Your Next Tournament • Serving New York, Pennsylvania & New Jersey Wrestling</footer><script>function isUpcomingTournament(date, now = new Date()) {
+<footer>NYmatfinder • Find Your Next Tournament • Serving New York, Pennsylvania & New Jersey Wrestling</footer><script>function matchesAgeDivision(value, selected) {
+  const text = String(value || '').toLowerCase();
+  if (selected === 'Modified' && /youth\s+(?:through|to)\s+(?:high school|hs)/.test(text)) return true;
+  if (selected === 'High School') return /\b(?:high school|hs)\b/.test(text);
+  return new RegExp('\\b' + selected.toLowerCase() + '\\b').test(text);
+}
+function isUpcomingTournament(date, now = new Date()) {
   if (!date) return true;
   const parts = new Intl.DateTimeFormat('en-US', {
     timeZone: 'America/New_York', year: 'numeric', month: '2-digit', day: '2-digit'
@@ -106,7 +112,7 @@ let tournaments=[];function render() {
       (t.name + ' ' + t.city).toLowerCase().includes(q) &&
       (!s || t.state === s) &&
       (!st || t.style === st) &&
-     (!a || t.age === a) &&
+     (!a || matchesAgeDivision(t.age, a)) &&
 (!selectedDate || (t.date && t.date >= selectedDate))
     )
     .sort((a, b) =>

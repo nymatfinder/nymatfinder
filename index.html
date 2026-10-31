@@ -335,7 +335,7 @@ nav{display:flex;align-items:center;gap:26px}nav a{color:#f2f4fa;margin:0;font-s
 <div class="field">
   <label for="address">Street Address *</label>
   <input id="address" placeholder="Example: 31 Main Street" required>
-</div><div class="field"><label for="eventstate">State *</label><select id="eventstate" required><option value="">Choose state</option><option>NY</option><option>PA</option><option>NJ</option></select></div><div class="field"><label for="contact">Contact email *</label><input id="contact" type="email" required></div><div class="field"><label for="package">Listing package *</label><select id="package" required><option value="">Choose package</option><option>Basic — $10</option><option>Featured — $20</option></select></div><div class="field"><label for="eventstyle">Wrestling style</label><select id="eventstyle"><option>Folkstyle</option><option>Freestyle</option><option>Greco-Roman</option></select></div><div class="field"><label for="flyer">Flyer (PDF, JPG, PNG)</label><input id="flyer" type="file" accept=".pdf,.jpg,.jpeg,.png,application/pdf,image/jpeg,image/png">
+</div><div class="field"><label for="eventstate">State *</label><select id="eventstate" required><option value="">Choose state</option><option>NY</option><option>PA</option><option>NJ</option></select></div><div class="field"><label for="contact">Contact email *</label><input id="contact" type="email" required></div><div class="field"><label for="package">Listing package *</label><select id="package" required><option value="">Choose package</option><option>Basic — $10</option><option>Featured — $20</option></select></div><div class="field"><label for="eventstyle">Wrestling style</label><select id="eventstyle"><option>Folkstyle</option><option>Freestyle</option><option>Greco-Roman</option></select></div><fieldset class="age-options" aria-describedby="age-help"><legend>Age divisions *</legend><p id="age-help">Select all that apply.</p><div class="age-checkboxes"><label><input type="checkbox" name="age_divisions" value="Youth"> Youth</label><label><input type="checkbox" name="age_divisions" value="Modified"> Modified</label><label><input type="checkbox" name="age_divisions" value="High School"> High School</label></div></fieldset><div class="field"><label for="flyer">Flyer (PDF, JPG, PNG)</label><input id="flyer" type="file" accept=".pdf,.jpg,.jpeg,.png,application/pdf,image/jpeg,image/png">
 <small>Optional: Upload a PDF, JPG, or PNG tournament flyer (maximum 10 MB).</small></div></div><div class="field"><label for="details">Additional tournament details</label><textarea id="details" rows="5" placeholder="Divisions, weigh-ins, fees, registration link, venue address, official results link (if completed)..."></textarea></div><div class="cf-turnstile" data-sitekey="0x4AAAAAAFtagBKGzRwW_ZoH"></div><button class="btn" type="submit">Submit Tournament for Approval</button><p id="feedback" role="status"></p></form></div></section></main>
 
 <!-- Tournament Details Window -->
@@ -549,6 +549,12 @@ if (!turnstileToken) {
   feedback.textContent = 'Please complete the security verification before submitting.';
   return;
 }
+  const ageDivisions = Array.from(document.querySelectorAll('input[name="age_divisions"]:checked'), input => input.value);
+  if (!ageDivisions.length) {
+    feedback.textContent = 'Please select at least one age division.';
+    document.querySelector('input[name="age_divisions"]').focus();
+    return;
+  }
   const submission = {
     tournament_name: document.querySelector('#name').value.trim(),
     tournament_date: document.querySelector('#date').value,
@@ -559,6 +565,7 @@ state: document.querySelector('#eventstate').value,
     contact_email: document.querySelector('#contact').value.trim(),
     listing_package: document.querySelector('#package').value.split(' — ')[0],
     wrestling_style: document.querySelector('#eventstyle').value,
+    age_divisions: JSON.stringify(ageDivisions),
     additional_details: document.querySelector('#details').value.trim(),
 turnstile_token: turnstileToken
   };

@@ -28,3 +28,5 @@
 .directory-page .hero{background:linear-gradient(110deg,rgba(246,251,255,.50),rgba(219,236,248,.25));border-bottom-color:#cadde97a}
 .directory-page .card{background:#fff}.directory-page .search{background:#fff}
 @media(max-width:700px){.directory-page{background-size:100% 1000px,auto 750px;background-position:center 170px,center 170px}}
+
+#submit .age-options{grid-column:1/-1;min-width:0;margin:12px 0;padding:17px;border:1px solid #cbdce8;border-radius:8px;background:#f8fbfe}#submit .age-options legend{font-size:12px;font-weight:700;color:#365b76;padding:0 5px}#age-help{font-size:12px;color:#526a80;margin:0 0 12px}.age-checkboxes{display:flex;flex-wrap:wrap;gap:14px 24px}#submit .age-checkboxes label{display:flex;align-items:center;gap:9px;font-size:14px;color:#244f70;cursor:pointer}#submit .age-checkboxes input{width:19px;height:19px;margin:0;accent-color:#2677ac;padding:0}

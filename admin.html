@@ -95,6 +95,7 @@ async function loadPendingSubmissions(accessToken) {
 <strong>Street Address:</strong> ${escapeHTML(t.street_address || "Not provided")}<br>
           <strong>Contact:</strong> ${escapeHTML(t.contact_email)}<br>
           <strong>Package:</strong> ${escapeHTML(t.listing_package)}<br>
+          <strong>Age divisions:</strong> ${escapeHTML((t.age_divisions || []).join(", ") || "Not specified")}<br>
           <strong>Style:</strong> ${escapeHTML(t.wrestling_style || "Not specified")}<br>
           <strong>Details:</strong> ${escapeHTML(t.additional_details || "None provided")}
 </p>
