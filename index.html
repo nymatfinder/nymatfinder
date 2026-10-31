@@ -411,17 +411,29 @@ function renderHomepageEvents() {
       theme = 'featured-sv';
     }
 
-    // Display the actual flyer when it's an image.
-    // PDFs get a prominent flyer button instead.
-    const flyerPreview = safeFlyer && !isPDF
-      ? `<img src="${safeFlyer}"
-              alt="${escapeHTML(name)} flyer"
-              loading="lazy"
-              class="featured-image">`
-      : `<div class="featured-placeholder">
-           <span>🏆</span>
-           <strong>${escapeHTML(name)}</strong>
-         </div>`;
+ // Display tournament logos when available
+let tournamentLogo = '';
+
+if (/susquehanna valley/i.test(name)) {
+  tournamentLogo = 'sv%20saber.jpeg';
+}
+
+const flyerPreview = tournamentLogo
+  ? `<img
+       src="${tournamentLogo}"
+       alt="${escapeHTML(name)} logo"
+       loading="lazy"
+       class="featured-image">`
+  : safeFlyer && !isPDF
+    ? `<img
+         src="${safeFlyer}"
+         alt="${escapeHTML(name)} flyer"
+         loading="lazy"
+         class="featured-image">`
+    : `<div class="featured-placeholder">
+         <span>🏆</span>
+         <strong>${escapeHTML(name)}</strong>
+       </div>`;
 
     const flyerButton = safeFlyer
       ? `<a href="${safeFlyer}"
