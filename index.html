@@ -414,7 +414,11 @@ function renderHomepageEvents() {
  // Display tournament logos when available
 let tournamentLogo = '';
 
-if (/susquehanna valley/i.test(name)) {
+if (/hanover/i.test(name)) {
+  tournamentLogo = 'hanover-logo.png';
+} else if (/palmerton/i.test(name)) {
+  tournamentLogo = 'palmerton-logo.jpg';
+} else if (/susquehanna valley/i.test(name)) {
   tournamentLogo = 'sv%20saber.jpeg';
 }
 
