@@ -154,7 +154,7 @@ Deno.serve(async (req) => {
   await adminClient
     .from("tournament_submissions")
     .select(
-      "id, tournament_name, tournament_date, city, venue_name, street_address, state, contact_email, listing_package, wrestling_style, age_divisions, flyer_url, submission_status, payment_status, stripe_checkout_session_id"
+      "id, tournament_name, tournament_date, city, venue_name, street_address, state, contact_email, listing_package, wrestling_style, age_divisions, flyer_url, submission_status, payment_status, stripe_checkout_session_id, payment_confirmation_email_sent_at"
     )
     .eq("id", submissionId)
     .single();
@@ -277,6 +277,48 @@ if (!paymentUpdated) {
     if (tournamentError) {
       console.error("Tournament publishing failed:", tournamentError);
       return respond({ error: "Unable to publish tournament" }, 500);
+    }
+
+    if (!submission.payment_confirmation_email_sent_at) {
+      const resendKey = Deno.env.get("RESEND_API_KEY");
+      if (!resendKey) {
+        return respond({ error: "Payment saved, but confirmation email is not configured" }, 500);
+      }
+      const emailResponse = await fetch("https://api.resend.com/emails", {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${resendKey}`,
+          "Content-Type": "application/json",
+          "Idempotency-Key": `nymatfinder-paid-${session.id}`,
+        },
+        body: JSON.stringify({
+          from: "NYmatfinder <payments@nymatfinder.com>",
+          to: [submission.contact_email],
+          subject: `Payment confirmed: ${submission.tournament_name}`,
+          text:
+            `Thank you! Your tournament listing payment has been received.\n\n` +
+            `Tournament: ${submission.tournament_name}\n` +
+            `Listing package: ${submission.listing_package}\n` +
+            `Amount paid: USD ${(expectedAmount / 100).toFixed(2)}\n` +
+            `Payment reference: ${paymentIntentId || session.id}\n\n` +
+            `Your tournament is now published on NYmatfinder.\n` +
+            `View tournament listings: https://nymatfinder.com/tournaments.html\n\n` +
+            `Questions? Contact nymatfinder@gmail.com.\n\nNYmatfinder`,
+        }),
+      });
+      if (!emailResponse.ok) {
+        console.error("Payment confirmation email failed:", emailResponse.status);
+        return respond({ error: "Payment saved; confirmation email will be retried" }, 500);
+      }
+      const { error: confirmationError } = await adminClient
+        .from("tournament_submissions")
+        .update({ payment_confirmation_email_sent_at: new Date().toISOString() })
+        .eq("id", submission.id)
+        .eq("stripe_checkout_session_id", session.id);
+      if (confirmationError) {
+        console.error("Confirmation email timestamp failed:", confirmationError);
+        return respond({ error: "Unable to record confirmation email" }, 500);
+      }
     }
 
     return respond({

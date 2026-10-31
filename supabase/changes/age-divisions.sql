@@ -7,3 +7,4 @@ CONSTRAINT tournament_submissions_age_divisions_check CHECK (
     AND age_divisions <@ ARRAY['Youth', 'Modified', 'High School']::text[]
   )
 );
+ALTER TABLE public.tournament_submissions ADD COLUMN payment_confirmation_email_sent_at timestamptz NULL;
