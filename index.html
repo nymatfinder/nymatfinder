@@ -172,15 +172,35 @@ function renderHomepageEvents() {
   const tier = (t.tier || 'Basic').trim();
   const flyer = t.flyer || '';
 
-  const flyerHTML = flyer && /^https?:\/\//i.test(flyer)
-    ? `<div class="flyer-container">
-         <img
-           src="${flyer.replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;')}"
-       alt="Tournament flyer"
-           loading="lazy"
-           style="width:100%;height:auto;display:block;"
-         >
-       </div>`
+  const safeFlyer = /^https?:\/\//i.test(flyer)
+    ? flyer
+        .replace(/&/g, '&amp;')
+        .replace(/"/g, '&quot;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+    : '';
+
+  const isPDF = /\.pdf(?:[?#]|$)/i.test(flyer);
+
+  const flyerHTML = safeFlyer
+    ? isPDF
+      ? `<div class="flyer-container" style="padding:20px;text-align:center;">
+           <p>📄 Tournament Flyer Available</p>
+           <a href="${safeFlyer}"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="btn">
+             View Tournament Flyer (PDF)
+           </a>
+         </div>`
+      : `<div class="flyer-container">
+           <img
+             src="${safeFlyer}"
+             alt="Tournament flyer"
+             loading="lazy"
+             style="width:100%;height:auto;display:block;"
+           >
+         </div>`
     : `<div class="banner">NYMATFINDER • TOURNAMENT</div>`;
 
   return `
