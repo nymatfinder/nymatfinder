@@ -253,13 +253,48 @@
   .featured-event-name {
     font-size: 18px;
   }
-}</style><script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script></head><body><header><div class="brand">NY<span>matfinder</span></div><nav><a href="tournaments.html">All Tournaments</a><a href="#results">Recent Results</a><a href="#pricing">Pricing</a><a href="#submit">Submit Tournament</a></nav></header><section class="hero"><div class="tag">NY + PA</div><h1>FIND YOUR NEXT<br>TOURNAMENT.</h1><p>The home for youth and high school wrestling tournaments across NY and PA. Find the right competition, see event details, and get on the mat.</p><a class="btn" href="tournaments.html" style="display:inline-block;text-decoration:none">Explore Tournaments →</a></section>
+}
+/* Arena homepage — presentation only; integrations remain unchanged. */
+body{background-color:#e9eff5;background-image:linear-gradient(180deg,rgba(128,191,231,.34),rgba(66,131,180,.22) 65%,#e9eff5),url('arena-background.webp');background-position:center top,center 72px;background-size:100% 1100px,100% auto;background-repeat:no-repeat;color:#edf3fc}
+header{max-width:1640px;margin:auto;background:linear-gradient(180deg,#245d86f2,#2d7099d9);padding:24px 3.5%;flex-wrap:nowrap;border-bottom:1px solid #2285bd44;gap:32px}
+.brand{display:block;white-space:nowrap;text-decoration:none;font-family:Impact,'Arial Narrow',sans-serif;font-size:clamp(30px,4.4vw,68px);font-style:italic;letter-spacing:-1px;color:#fff;line-height:.95;text-shadow:2px 3px 0 #000}
+.brand span{text-shadow:none;filter:drop-shadow(2px 3px 0 #000);color:#35b6ff;background:linear-gradient(#e2f6ff,#39b5f8 48%,#0875d3 52%,#1053a2);background-clip:text;-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.brand small{display:block;font:italic 800 clamp(8px,1vw,14px)/1.8 Arial,sans-serif;letter-spacing:1.4px;color:#e5ecfa;margin-top:6px;text-shadow:none}
+nav{display:flex;align-items:center;gap:26px}nav a{color:#f2f4fa;margin:0;font-size:17px;white-space:nowrap}nav a:hover{color:#57caff}nav a:last-child{border:2px solid #0bbcff;border-radius:10px;background:linear-gradient(#0a65db,#002966);padding:14px 20px;box-shadow:inset 0 0 12px #008bff80,0 0 12px #008bff55}
+.hero{min-height:0;text-align:center;background:none;padding:22px 6% 8px;max-width:1640px;margin:auto}
+.hero h1{max-width:none;font-family:Impact,'Arial Narrow',sans-serif;font-size:clamp(32px,3.55vw,62px);font-style:italic;letter-spacing:.6px;line-height:1.15;text-shadow:2px 4px 0 #000,0 1px 12px #000;margin:0}
+.hero p{max-width:none;font-size:clamp(12px,1.5vw,23px);font-style:italic;font-weight:800;letter-spacing:3px;margin:12px 0 0;text-shadow:0 2px 5px #000}
+.wrap{max-width:1600px;padding:10px 3.5% 50px}
+#featured-events{margin-top:6px;padding-top:0;text-align:center}
+#featured-events>h2{display:table;margin:14px auto 8px;padding:8px 52px;background:linear-gradient(100deg,#ffbe16,#ffdf64 50%,#e7a408);color:#021025;clip-path:polygon(2% 0,99% 3%,97% 17%,100% 24%,98% 86%,96% 89%,98% 100%,0 96%,2% 77%,0 70%);font-family:Impact,'Arial Narrow',sans-serif;font-style:italic;font-size:clamp(25px,3.9vw,59px);letter-spacing:1px;line-height:1.25}
+#featured-events>p{color:#eef3ff;font-weight:800;font-style:italic;letter-spacing:3px;font-size:clamp(11px,1.5vw,21px);margin:12px 0 30px}
+#homepage-featured.featured-showcase-grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:26px}
+.featured-showcase-card{border-radius:23px;border-width:3px;box-shadow:0 0 7px #fff,inset 0 0 10px #fff5,0 0 23px #e7b93e66;background:#dce4ed;color:#071a35}
+.featured-hanover{border-color:#6edaff;box-shadow:0 0 5px #fff,0 0 22px #00acff, inset 0 0 9px #00aaff}
+.featured-palmerton{border-color:#ffcf35;box-shadow:0 0 5px #fff,0 0 22px #ffb600}
+.featured-sv{border-color:#eac766;box-shadow:0 0 5px #fff,0 0 22px #d5a63888}
+.featured-ribbon{position:absolute;z-index:1;top:5px;left:14%;right:14%;padding:6px 2px;font-family:Impact,'Arial Narrow',sans-serif;font-style:italic;font-size:clamp(13px,1.35vw,21px);line-height:1.2;letter-spacing:0;clip-path:polygon(4% 0,98% 0,95% 20%,100% 30%,96% 80%,94% 100%,0 100%,3% 70%,0 55%)}
+.featured-visual{height:240px;min-height:0;padding:44px 26px 18px;background-size:cover}
+.featured-hanover .featured-visual{background:repeating-linear-gradient(132deg,transparent 0 40px,#218bff33 40px 55px,transparent 55px 75px),linear-gradient(130deg,#092660,#eff6ff 40%,#d1e4fa 70%,#1055b5)}
+.featured-palmerton .featured-visual{background:repeating-linear-gradient(132deg,transparent 0 44px,#cba23333 44px 55px,transparent 55px 78px),linear-gradient(140deg,#101316,#292b2b,#080b10)}
+.featured-sv .featured-visual{background:repeating-linear-gradient(132deg,transparent 0 40px,#eec45244 40px 52px,transparent 52px 77px),linear-gradient(140deg,#061a38,#153e70,#09172b)}
+.featured-image{width:auto;max-width:100%;height:auto;max-height:170px;object-fit:contain;border-radius:3px;filter:drop-shadow(0 3px 5px #0004)}
+.featured-event-name{font-family:Impact,'Arial Narrow',sans-serif;font-size:clamp(20px,2.1vw,33px);font-style:italic;color:#fff;background:linear-gradient(#0649a0,#031a43);padding:12px 12px;min-height:100px;display:flex;align-items:center;justify-content:center;text-shadow:2px 3px #000;line-height:1.05}
+.featured-event-details{background:linear-gradient(110deg,#d3dce6,#fff 48%,#d4dce6);padding:14px 14px 8px;flex:1}.featured-date{color:#061b43;font:italic 900 clamp(18px,1.8vw,28px)/1.2 Arial,sans-serif;margin-bottom:12px}.featured-location{font-weight:900;font-size:clamp(15px,1.35vw,21px);text-transform:uppercase;color:#0b1728;margin-bottom:8px}.featured-meta{color:#35465a;font-size:13px}
+.featured-flyer-btn{font-style:italic;font-size:clamp(12px,1.3vw,20px);border-color:#48bcff;box-shadow:0 2px 5px #000b,inset 0 0 5px #52aaff;color:#fff;margin:0 18px 16px;padding:13px 5px;background:linear-gradient(#0785fb,#004cbd 48%,#002258)}
+.btn{display:inline-block;background:linear-gradient(#0879e8,#073e91);color:#fff;border:1px solid #4fc9ff;box-shadow:0 0 14px #147ac344;text-decoration:none}
+#results,#pricing,#submit{background:#f8fbff;border:1px solid #c7d8e7;border-radius:14px;padding:28px;margin-top:32px;color:#153450}.muted{color:#526a80}.formbox,.price{color:#142c45}#contact{color:#173c5d}footer{background:#020a14;color:#afc3da}#tournament-modal{color:#142c45}a:focus-visible,button:focus-visible{outline:3px solid #ffd457;outline-offset:4px}
+@media(min-width:1500px){.featured-visual{height:265px}.featured-image{max-height:190px}}
+@media(max-width:1050px){header{flex-wrap:wrap;justify-content:center;padding:18px 3%}.brand{text-align:center;font-size:48px}nav{gap:24px}.hero{padding-top:24px}body{background-size:auto 900px;background-position:center 100px}.featured-visual{height:200px;padding:38px 14px 14px}.featured-image{max-height:145px}.featured-event-name{min-height:95px}.featured-event-details{padding:12px 7px}#homepage-featured.featured-showcase-grid{gap:16px}.featured-flyer-btn{margin:0 10px 12px}}
+@media(max-width:700px){header{gap:16px}.brand{font-size:42px}.brand small{font-size:8px}nav{gap:14px;flex-wrap:wrap;justify-content:center}nav a{font-size:12px}nav a:last-child{padding:9px 11px}.hero{padding:24px 16px 0}.hero h1{font-size:36px;line-height:1.05}.hero p{letter-spacing:1.3px;font-size:11px;line-height:1.8}.wrap{padding:8px 5% 30px}#featured-events>h2{font-size:27px;padding:10px 19px}#featured-events>p{font-size:11px;letter-spacing:1.5px;line-height:1.7;margin:12px 8px 24px}#homepage-featured.featured-showcase-grid{grid-template-columns:1fr;max-width:430px;margin:auto;gap:25px}.featured-visual{height:230px;padding:42px 24px 16px}.featured-image{max-height:175px}.featured-ribbon{font-size:18px}.featured-event-name{font-size:29px;min-height:90px}.featured-date{font-size:23px}.featured-location{font-size:18px}.featured-flyer-btn{font-size:17px;padding:14px}#results,#pricing,#submit{padding:20px}body{background-size:auto 850px}}
+
+</style><script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script></head><body><header><a class="brand" href="./" aria-label="NYmatfinder home">NY<span>MATFINDER</span><small>NEW YORK + PENNSYLVANIA WRESTLING TOURNAMENTS</small></a><nav><a href="tournaments.html">Find Tournaments</a><a href="#results">Recent Results</a><a href="#pricing">Pricing</a><a href="#submit">Submit Tournament</a></nav></header><section class="hero"><h1>NY + PA WRESTLING TOURNAMENTS</h1><p>YOUR SOURCE FOR YOUTH &amp; HIGH SCHOOL WRESTLING EVENTS</p></section>
 <main class="wrap">
 
 <section id="featured-events" class="section">
-  <h2>⭐ Featured Events & Sponsors</h2>
+  <h2>★ FEATURED TOURNAMENTS ★</h2>
   <p class="muted">
-    Discover premier wrestling tournaments across New York and Pennsylvania.
+    FIND YOUR NEXT CHALLENGE. COMPETE WITH THE BEST.
   </p>
 
   <div id="homepage-featured" class="cards"></div>
