@@ -183,7 +183,7 @@ street_address.length > 300 ||
       flyer_url = data.publicUrl;
     }
 
-    const { error: submissionError } = await supabase
+    const { data: savedSubmission, error: submissionError } = await supabase
       .from("tournament_submissions")
       .insert({
         tournament_name,
@@ -198,7 +198,9 @@ street_address.length > 300 ||
         additional_details,
         age_divisions,
         flyer_url,
-      });
+      })
+      .select("id")
+      .single();
 
     if (submissionError) {
       console.error("Submission failed:", submissionError);
@@ -212,8 +214,53 @@ street_address.length > 300 ||
       return respond({ error: "Unable to save tournament" }, 500);
     }
 
+    // Save the submission first: email failures must never lose the event.
+    let notificationSent = false;
+    try {
+      const resendKey = Deno.env.get("RESEND_API_KEY");
+      if (!resendKey || !savedSubmission?.id) {
+        console.error("Submission notification unavailable: missing email configuration or submission ID");
+      } else {
+        const notification = await fetch("https://api.resend.com/emails", {
+          method: "POST",
+          signal: AbortSignal.timeout(10000),
+          headers: {
+            Authorization: `Bearer ${resendKey}`,
+            "Content-Type": "application/json",
+            "Idempotency-Key": `nymatfinder-submission-${savedSubmission.id}`,
+          },
+          body: JSON.stringify({
+            from: "NYmatfinder <payments@nymatfinder.com>",
+            to: ["nymatfinder@gmail.com"],
+            subject: `New tournament awaiting approval: ${tournament_name}`,
+            text:
+              `A tournament has been submitted and is awaiting your review.\n\n` +
+              `Submission ID: ${savedSubmission.id}\n` +
+              `Tournament: ${tournament_name}\n` +
+              `Date: ${tournament_date}\n` +
+              `Location: ${city}, ${state}\n` +
+              `Venue: ${venue_name}\n` +
+              `Street address: ${street_address}\n` +
+              `Age divisions: ${age_divisions?.join(", ") || "Not specified"}\n` +
+              `Style: ${wrestling_style}\n` +
+              `Package: ${listing_package}\n` +
+              `Director email: ${contact_email}\n` +
+              `Flyer: ${flyer_url || "Not provided"}\n\n` +
+              `Additional details:\n${additional_details || "None provided"}\n\n` +
+              `Review in the admin dashboard:\nhttps://nymatfinder.com/admin.html\n\n` +
+              `No payment is requested until you approve the submission.\n\nNYmatfinder`,
+          }),
+        });
+        notificationSent = notification.ok;
+        if (!notification.ok) console.error("Submission notification failed:", notification.status);
+      }
+    } catch {
+      console.error("Submission saved, but notification email could not be sent");
+    }
+
     return respond({
       success: true,
+      notification_sent: notificationSent,
       message: "Tournament submitted for approval",
     });
   } catch (error) {
