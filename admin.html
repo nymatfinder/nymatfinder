@@ -95,9 +95,24 @@ async function loadPendingSubmissions(accessToken) {
           <strong>Package:</strong> ${escapeHTML(t.listing_package)}<br>
           <strong>Style:</strong> ${escapeHTML(t.wrestling_style || "Not specified")}<br>
           <strong>Details:</strong> ${escapeHTML(t.additional_details || "None provided")}
-        </p>
-        <p><strong>Status:</strong> Pending review</p>
-     <div style="display:flex;gap:10px;margin-top:12px;">
+</p>
+
+${t.flyer_url && /^https:\/\/phfijrkrcoanxwzdstjk\.supabase\.co\/storage\/v1\/object\/public\/tournament-flyers\//i.test(t.flyer_url)
+  ? /\.(jpg|jpeg|png)(\?|$)/i.test(t.flyer_url)
+    ? `<p><strong>Tournament Flyer:</strong><br>
+       <a href="${escapeHTML(t.flyer_url)}" target="_blank" rel="noopener noreferrer">
+         <img src="${escapeHTML(t.flyer_url)}"
+              alt="Tournament flyer"
+              style="max-width:350px;width:100%;height:auto;border-radius:8px;margin-top:10px;">
+       </a></p>`
+    : `<p><strong>Tournament Flyer:</strong>
+       <a href="${escapeHTML(t.flyer_url)}" target="_blank" rel="noopener noreferrer">View PDF Flyer</a></p>`
+ : '<p><strong>Tournament Flyer:</strong> No flyer uploaded.</p>'
+}
+
+<p><strong>Status:</strong> Pending review</p>
+
+<div style="display:flex;gap:10px;margin-top:12px;">
   <button
     type="button"
     class="approve-btn"
