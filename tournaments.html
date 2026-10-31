@@ -84,7 +84,16 @@
   <div id="tournament-modal-content" style="clear:both;padding-top:15px;"></div>
 </dialog>
 
-<footer>NYmatfinder • Find Your Next Tournament • Serving New York, Pennsylvania & New Jersey Wrestling</footer><script>let tournaments=[];function render() {
+<footer>NYmatfinder • Find Your Next Tournament • Serving New York, Pennsylvania & New Jersey Wrestling</footer><script>function isUpcomingTournament(date, now = new Date()) {
+  if (!date) return true;
+  const parts = new Intl.DateTimeFormat('en-US', {
+    timeZone: 'America/New_York', year: 'numeric', month: '2-digit', day: '2-digit'
+  }).formatToParts(now);
+  const part = type => parts.find(p => p.type === type).value;
+  const today = `${part('year')}-${part('month')}-${part('day')}`;
+  return date >= today;
+}
+let tournaments=[];function render() {
   const q = document.querySelector('#query').value.toLowerCase();
   const s = document.querySelector('#state').value;
   syncStateNavigation(s);
@@ -93,6 +102,7 @@
   const selectedDate = document.querySelector('#filter-date').value;
   const list = tournaments
     .filter(t =>
+      isUpcomingTournament(t.date) &&
       (t.name + ' ' + t.city).toLowerCase().includes(q) &&
       (!s || t.state === s) &&
       (!st || t.style === st) &&
