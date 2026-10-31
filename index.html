@@ -288,7 +288,7 @@ nav{display:flex;align-items:center;gap:26px}nav a{color:#f2f4fa;margin:0;font-s
 @media(max-width:1050px){header{flex-wrap:wrap;justify-content:center;padding:18px 3%}.brand{text-align:center;font-size:48px}nav{gap:24px}.hero{padding-top:24px}body{background-size:auto 900px;background-position:center 100px}.featured-visual{height:200px;padding:38px 14px 14px}.featured-image{max-height:145px}.featured-event-name{min-height:95px}.featured-event-details{padding:12px 7px}#homepage-featured.featured-showcase-grid{gap:16px}.featured-flyer-btn{margin:0 10px 12px}}
 @media(max-width:700px){header{gap:16px}.brand{font-size:42px}.brand small{font-size:8px}nav{gap:14px;flex-wrap:wrap;justify-content:center}nav a{font-size:12px}nav a:last-child{padding:9px 11px}.hero{padding:24px 16px 0}.hero h1{font-size:36px;line-height:1.05}.hero p{letter-spacing:1.3px;font-size:11px;line-height:1.8}.wrap{padding:8px 5% 30px}#featured-events>h2{font-size:27px;padding:10px 19px}#featured-events>p{font-size:11px;letter-spacing:1.5px;line-height:1.7;margin:12px 8px 24px}#homepage-featured.featured-showcase-grid{grid-template-columns:1fr;max-width:430px;margin:auto;gap:25px}.featured-visual{height:230px;padding:42px 24px 16px}.featured-image{max-height:175px}.featured-ribbon{font-size:18px}.featured-event-name{font-size:29px;min-height:90px}.featured-date{font-size:23px}.featured-location{font-size:18px}.featured-flyer-btn{font-size:17px;padding:14px}#results,#pricing,#submit{padding:20px}body{background-size:auto 850px}}
 
-</style><script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script></head><body><header><a class="brand" href="./" aria-label="NYmatfinder home">NY<span>MATFINDER</span><small>NEW YORK + PENNSYLVANIA WRESTLING TOURNAMENTS</small></a><nav><a href="tournaments.html">Find Tournaments</a><a href="#results">Recent Results</a><a href="#pricing">Pricing</a><a href="#submit">Submit Tournament</a></nav></header><section class="hero"><h1>NY + PA WRESTLING TOURNAMENTS</h1><p>YOUR SOURCE FOR YOUTH &amp; HIGH SCHOOL WRESTLING EVENTS</p></section>
+</style><script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script><link rel="stylesheet" href="interior.css"></head><body><header><a class="brand" href="./" aria-label="NYmatfinder home">NY<span>MATFINDER</span><small>NEW YORK + PENNSYLVANIA + NEW JERSEY WRESTLING TOURNAMENTS</small></a><nav><a href="tournaments.html">Find Tournaments</a><a href="#results">Recent Results</a><a href="#pricing">Pricing</a><a href="#submit">Submit Tournament</a></nav></header><section class="hero"><h1>NY + PA + NJ WRESTLING TOURNAMENTS</h1><p>YOUR SOURCE FOR YOUTH &amp; HIGH SCHOOL WRESTLING EVENTS</p></section>
 <main class="wrap">
 
 <section id="featured-events" class="section">
@@ -305,7 +305,7 @@ nav{display:flex;align-items:center;gap:26px}nav a{color:#f2f4fa;margin:0;font-s
 </div>
 </section>
 
-<section id="results" class="section"><h2>Recent Tournament Results</h2><p class="muted">Find official brackets, placements, and team standings for completed youth and high school tournaments in NY and PA, when available.</p><div class="formbox"><span class="pill">RESULTS DIRECTORY</span><h3>Verified results coming soon</h3><p class="muted">No verified tournament results have been added yet. Once official results are available, this section will link to the original published brackets or results pages. Unconfirmed placements will not be displayed.</p><p class="muted">Tournament directors can include an official results link in their event submission or send one after the event.</p></div></section><section id="pricing" class="section"><h2>List Your Tournament</h2><p>One-time pricing per tournament. No payment until your submission is approved.</p><div class="prices">
+<section id="results" class="section"><div class="section-eyebrow">AFTER THE FINAL WHISTLE</div><h2>Recent Tournament Results</h2><p class="muted">Find official brackets, placements, and team standings for completed youth and high school tournaments in NY, PA, and NJ, when available.</p><div class="formbox"><span class="pill">RESULTS DIRECTORY</span><h3>Verified results coming soon</h3><p class="muted">No verified tournament results have been added yet. Once official results are available, this section will link to the original published brackets or results pages. Unconfirmed placements will not be displayed.</p><p class="muted">Tournament directors can include an official results link in their event submission or send one after the event.</p></div></section><section id="pricing" class="section"><div class="section-eyebrow">PUT YOUR EVENT ON THE MAP</div><h2>List Your Tournament</h2><p>One-time pricing per tournament. No payment until your submission is approved.</p><div class="prices">
   <div class="price">
     <h3>Basic</h3>
     <strong>$10</strong>
@@ -313,11 +313,11 @@ nav{display:flex;align-items:center;gap:26px}nav a{color:#f2f4fa;margin:0;font-s
   </div>
 
   <div class="price">
-    <h3>Featured ⭐</h3>
+    <span class="package-badge">HOMEPAGE SPOTLIGHT</span><h3>Featured ⭐</h3>
     <strong>$20</strong>
     <p>Everything in Basic, plus homepage promotion, a larger highlighted listing, and prominent flyer display.</p>
   </div>
-</div></section><section id="submit" class="section"><h2>Submit a Tournament</h2><p>Submit your event for review. You'll receive payment instructions only after approval.</p><div class="formbox"><form id="form">
+</div></section><section id="submit" class="section"><div class="section-eyebrow">FOR TOURNAMENT DIRECTORS</div><h2>Submit a Tournament</h2><p>Submit your event for review. You'll receive payment instructions only after approval.</p><div class="submission-steps" aria-label="Submission process"><span><b>1</b> Submit your event</span><span><b>2</b> We review the details</span><span><b>3</b> Pay after approval</span></div><div class="formbox"><form id="form">
 <div style="position:absolute;left:-9999px" aria-hidden="true">
   <label for="website_check">Leave this field empty</label>
   <input id="website_check" name="website_check" type="text" tabindex="-1" autocomplete="off">
@@ -335,7 +335,7 @@ nav{display:flex;align-items:center;gap:26px}nav a{color:#f2f4fa;margin:0;font-s
 <div class="field">
   <label for="address">Street Address *</label>
   <input id="address" placeholder="Example: 31 Main Street" required>
-</div><div class="field"><label for="eventstate">State *</label><select id="eventstate" required><option value="">Choose state</option><option>NY</option><option>PA</option></select></div><div class="field"><label for="contact">Contact email *</label><input id="contact" type="email" required></div><div class="field"><label for="package">Listing package *</label><select id="package" required><option value="">Choose package</option><option>Basic — $10</option><option>Featured — $20</option></select></div><div class="field"><label for="eventstyle">Wrestling style</label><select id="eventstyle"><option>Folkstyle</option><option>Freestyle</option><option>Greco-Roman</option></select></div><div class="field"><label for="flyer">Flyer (PDF, JPG, PNG)</label><input id="flyer" type="file" accept=".pdf,.jpg,.jpeg,.png,application/pdf,image/jpeg,image/png">
+</div><div class="field"><label for="eventstate">State *</label><select id="eventstate" required><option value="">Choose state</option><option>NY</option><option>PA</option><option>NJ</option></select></div><div class="field"><label for="contact">Contact email *</label><input id="contact" type="email" required></div><div class="field"><label for="package">Listing package *</label><select id="package" required><option value="">Choose package</option><option>Basic — $10</option><option>Featured — $20</option></select></div><div class="field"><label for="eventstyle">Wrestling style</label><select id="eventstyle"><option>Folkstyle</option><option>Freestyle</option><option>Greco-Roman</option></select></div><div class="field"><label for="flyer">Flyer (PDF, JPG, PNG)</label><input id="flyer" type="file" accept=".pdf,.jpg,.jpeg,.png,application/pdf,image/jpeg,image/png">
 <small>Optional: Upload a PDF, JPG, or PNG tournament flyer (maximum 10 MB).</small></div></div><div class="field"><label for="details">Additional tournament details</label><textarea id="details" rows="5" placeholder="Divisions, weigh-ins, fees, registration link, venue address, official results link (if completed)..."></textarea></div><div class="cf-turnstile" data-sitekey="0x4AAAAAAFtagBKGzRwW_ZoH"></div><button class="btn" type="submit">Submit Tournament for Approval</button><p id="feedback" role="status"></p></form></div></section></main>
 
 <!-- Tournament Details Window -->
@@ -368,7 +368,7 @@ nav{display:flex;align-items:center;gap:26px}nav a{color:#f2f4fa;margin:0;font-s
     </a>
   </p>
 </section>
-<footer>NYmatfinder • Find Your Next Tournament • Serving New York & Pennsylvania Wrestling</footer><script>let tournaments=[];
+<footer>NYmatfinder • Find Your Next Tournament • Serving New York, Pennsylvania & New Jersey Wrestling</footer><script>let tournaments=[];
 function openTournamentDetails(id) {
   const tournament = tournaments.find(t => String(t.id) === String(id));
 
