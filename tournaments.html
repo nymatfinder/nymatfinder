@@ -114,10 +114,12 @@
               <span class="pill">${tier.toUpperCase()}</span>
               <h3>${t.name}</h3>
               <div class="muted">
-                📍 ${t.city}, ${t.state}<br>
-                📅 ${t.date || 'Date TBD'}<br>
-                🤼 ${t.style} · ${t.age}
-              </div>
+  📍 ${t.city}, ${t.state}<br>
+  ${t.venue ? `🏫 ${t.venue}<br>` : ''}
+  ${t.address ? `📍 ${t.address}<br>` : ''}
+  📅 ${t.date || 'Date TBD'}<br>
+  🤼 ${t.style} · ${t.age}
+</div>
               <button
   type="button"
   class="link"
@@ -160,6 +162,8 @@ function openTournamentDetails(id) {
     <p>
       📅 <strong>Date:</strong> ${escapeHTML(tournament.date || 'TBD')}<br>
       📍 <strong>Location:</strong> ${escapeHTML(tournament.city)}, ${escapeHTML(tournament.state)}<br>
+${tournament.venue ? `🏫 <strong>Venue:</strong> ${escapeHTML(tournament.venue)}<br>` : ''}
+${tournament.address ? `📍 <strong>Street Address:</strong> ${escapeHTML(tournament.address)}<br>` : ''}
       🤼 <strong>Style:</strong> ${escapeHTML(tournament.style || 'TBD')}<br>
       <strong>Age Division:</strong> ${escapeHTML(tournament.age || 'TBD')}
     </p>
@@ -205,7 +209,9 @@ const data = await response.json();
 tournaments = data.map(t => ({
   id: t.id,
   name: t.tournament_name,
-  city: t.city,
+    city: t.city,
+  venue: t.venue_name,
+  address: t.street_address,
   state: t.state,
   style: t.wrestling_style,
   age: t.age_division,
