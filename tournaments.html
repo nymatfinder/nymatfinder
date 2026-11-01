@@ -187,7 +187,9 @@ ${tournament.address ? `📍 <strong>Street Address:</strong> ${escapeHTML(tourn
       <strong>Age Division:</strong> ${escapeHTML(tournament.age || 'TBD')}
     </p>
 
-    ${safeFlyer
+    ${safeFlyer && /\.pdf(?:[?#]|$)/i.test(flyer)
+      ? `<a class="link" href="${safeFlyer}" target="_blank" rel="noopener noreferrer">View tournament flyer (PDF) →</a>`
+      : safeFlyer
       ? `<img src="${safeFlyer}" alt="Flyer for ${escapeHTML(tournament.name)}"
            style="width:100%;height:auto;margin-top:15px;border-radius:8px;">`
       : '<p>Flyer not available yet.</p>'
